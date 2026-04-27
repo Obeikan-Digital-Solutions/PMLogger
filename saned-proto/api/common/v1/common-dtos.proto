@@ -1,0 +1,100 @@
+syntax = "proto3";
+
+package api.common.v1.dto;
+
+option php_namespace = "App\\Grpc\\Protobuf\\Common\\v1\\DTO";
+option php_metadata_namespace = "App\\Grpc\\Protobuf\\Common\\v1\\GPBMetadata";
+option csharp_namespace = "App.Grpc.Protobuf.Common.v1.DTO";
+
+import "google/protobuf/wrappers.proto";
+message CommonActionParameterlessReqDto {}
+
+message CommonActionByIdReqDto { string id = 1; }
+message CommonActionByIdsReqDto { repeated string ids = 1; }
+
+message CommonPropFilterItemDto {
+  string value = 1;
+  int32 level = 2;
+  CommonCondOpValue conOp = 3;
+  CommonLogicOpValue logOp = 4;
+}
+
+enum CommonPropOrderValue {
+  ASEC = 0;
+  DESC = 1;
+}
+enum CommonLogicOpValue {
+  AND = 0;
+  OR = 1;
+  XOR = 2;
+  NOR = 3;
+  NAND = 4;
+  XNOR = 5;
+  NOT = 6;
+}
+enum CommonCondOpValue {
+  EQ = 0;
+  GT = 1;
+  GTE = 2;
+  IN = 3;
+  LT = 4;
+  LTE = 5;
+  NE = 6;
+  NIN = 7;
+  REGEX = 8;
+}
+
+message CommonGetAllReqDto {
+  google.protobuf.StringValue search = 1;
+  map<string, CommonPropFilterItemDto> filters = 2;
+  map<string, CommonPropOrderValue> orders = 3;
+}
+message CommonGetPageReqDto {
+  google.protobuf.StringValue search = 1;
+  map<string, CommonPropFilterItemDto> filters = 2;
+  map<string, CommonPropOrderValue> orders = 3;
+  int32 pageIndex = 4;
+  int32 pageSize = 5;
+}
+
+message CommondEmptyResDtoMessage {
+  int32 status = 1;
+  google.protobuf.StringValue title = 2;
+  map<string, string> errors = 3;
+}
+
+message CommonLookupResDto {
+  string id = 1;
+  string text = 2;
+  map<string, string> kv = 3;
+}
+
+message CommonPageInfoResDto {
+  int32 totalPages = 1;
+  int32 totalItems = 2;
+  int32 pageIndex = 3;
+  int32 pageSize = 4;
+}
+message CommonLookupPageResDto { 
+  repeated CommonLookupResDto items = 1; 
+  CommonPageInfoResDto pageInfo = 2; 
+}
+message CommonLookupListResDto { repeated CommonLookupResDto items = 1; }
+message CommonLookupResDtoMessage {
+  int32 status = 1;
+  google.protobuf.StringValue title = 2;
+  map<string, string> errors = 3;
+  CommonLookupResDto data = 4;
+}
+message CommonLookupListResDtoMessage {
+  int32 status = 1;
+  google.protobuf.StringValue title = 2;
+  map<string, string> errors = 3;
+  CommonLookupListResDto data = 4;
+}
+message CommonLookupPageResDtoMessage {
+  int32 status = 1;
+  google.protobuf.StringValue title = 2;
+  map<string, string> errors = 3;
+  CommonLookupPageResDto data = 4;
+}

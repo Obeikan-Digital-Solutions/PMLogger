@@ -1,0 +1,50 @@
+syntax = "proto3";
+package api.starterkits.v02.dto;
+
+option csharp_namespace = "App.Grpc.Protobuf.StarterKits.v02.DTO";
+import "api/common/v1/common-dtos.proto";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+
+message CreateWeatherForecastRequestV02 {
+    google.protobuf.Timestamp date = 1;
+    int32 temperatureC =2;
+    string summary = 3;
+}
+message UpdateWeatherForecastRequestV02 {
+    string id = 1;
+    google.protobuf.Timestamp date = 2;
+    int32 temperatureC =3;
+    string summary = 4;
+}
+
+message WeatherForecastPageResV02 {
+  repeated WeatherForecastResV02 items = 1;
+  api.common.v1.dto.CommonPageInfoResDto pageInfo = 2;
+}
+
+message WeatherForecastListResV02 { repeated WeatherForecastResV02 items = 1; }
+message WeatherForecastResV02 { 
+    string id = 1;
+    google.protobuf.Timestamp date = 2;
+    int32 temperatureC =3;
+    string summary = 4;
+}
+message WeatherForecastListResDtoMessageV02 {
+  int32 status = 1;
+  google.protobuf.StringValue title = 2;
+  map<string, string> errors = 3;
+  WeatherForecastListResV02 data = 4;
+}
+message WeatherForecastResDtoMessageV02 {
+  int32 status = 1;
+  google.protobuf.StringValue title = 2;
+  map<string, string> errors = 3;
+  WeatherForecastResV02 data = 4;
+}
+message WeatherForecastPageResDtoMessageV02 {
+  int32 status = 1;
+  google.protobuf.StringValue title = 2;
+  map<string, string> errors = 3;
+  WeatherForecastPageResV02 data = 4;
+}

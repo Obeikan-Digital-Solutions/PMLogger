@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <NUPKG_SanedBuildingBlocks Condition="'$(NUPKG_SanedBuildingBlocks)' == ''">SanedBuildingBlocks</NUPKG_SanedBuildingBlocks>
+    <NUPKG_SanedBuildingBlocks_Version Condition="'$(NUPKG_SanedBuildingBlocks_Version)' == ''">1.0.21</NUPKG_SanedBuildingBlocks_Version>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="$(NUPKG_SanedBuildingBlocks)" Version="$(NUPKG_SanedBuildingBlocks_Version)" />  
+  </ItemGroup>
+</Project>

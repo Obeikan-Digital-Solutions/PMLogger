@@ -1,0 +1,18 @@
+﻿syntax = "proto3";
+package api.starterkits.v1;
+
+option php_namespace = "App\\Grpc\\Protobuf\\StarterKits\\v1";
+option php_metadata_namespace = "App\\Grpc\\Protobuf\\StarterKits\\v1\\GPBMetadata";
+option csharp_namespace = "App.Grpc.Protobuf.StarterKits.v1";
+
+import "api/starterkits/v1/message.proto";
+
+service StarterKitsWeatherForecasts {
+  rpc GetById (api.starterkits.v1.dto.GetWeatherForecastRequest) returns (api.starterkits.v1.dto.WeatherForecastRes);
+  rpc Create (api.starterkits.v1.dto.CreateWeatherForecastRequest) returns (api.starterkits.v1.dto.WeatherForecastRes);
+  rpc Update (api.starterkits.v1.dto.UpdateWeatherForecastRequest) returns (api.starterkits.v1.dto.WeatherForecastRes);
+  rpc Delete (api.starterkits.v1.dto.DeleteWeatherForecastRequest) returns (api.starterkits.v1.dto.WeatherForecastRes);
+  rpc GetAll (api.starterkits.v1.dto.GetAllRequest) returns (api.starterkits.v1.dto.WeatherForecastListRes);
+}
+
+

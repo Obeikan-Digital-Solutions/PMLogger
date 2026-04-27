@@ -1,0 +1,28 @@
+syntax = "proto3";
+package api.starterkits.v02;
+
+option csharp_namespace = "App.Grpc.Protobuf.StarterKits.v02";
+
+import "api/starterkits/v02/starterkits-v02-dto.proto";
+import "api/common/v1/common-dtos.proto";
+
+service WeatherForecastV02 {
+
+  rpc GetById (api.common.v1.dto.CommonActionByIdReqDto) returns (api.starterkits.v02.dto.WeatherForecastResDtoMessageV02);
+  rpc LookupGetById (api.common.v1.dto.CommonActionByIdReqDto) returns (api.common.v1.dto.CommonLookupResDtoMessage);
+
+  rpc GetAllByIds (api.common.v1.dto.CommonActionByIdsReqDto) returns (api.starterkits.v02.dto.WeatherForecastListResDtoMessageV02);
+  rpc LookupGetAllByIds (api.common.v1.dto.CommonActionByIdsReqDto) returns (api.common.v1.dto.CommonLookupListResDtoMessage);
+  
+  rpc GetAll (api.common.v1.dto.CommonGetAllReqDto) returns (api.starterkits.v02.dto.WeatherForecastListResDtoMessageV02);
+  rpc LookupGetAll (api.common.v1.dto.CommonGetAllReqDto) returns (api.common.v1.dto.CommonLookupListResDtoMessage);
+  
+  rpc GetPage (api.common.v1.dto.CommonGetPageReqDto) returns (api.starterkits.v02.dto.WeatherForecastPageResDtoMessageV02);
+  rpc LookupGetPage (api.common.v1.dto.CommonGetPageReqDto) returns (api.common.v1.dto.CommonLookupPageResDtoMessage);
+
+  
+  rpc Add (api.starterkits.v02.dto.CreateWeatherForecastRequestV02) returns (api.starterkits.v02.dto.WeatherForecastResDtoMessageV02);
+  rpc Update (api.starterkits.v02.dto.UpdateWeatherForecastRequestV02) returns (api.starterkits.v02.dto.WeatherForecastResDtoMessageV02);
+  rpc Delete (api.common.v1.dto.CommonActionByIdReqDto) returns (api.common.v1.dto.CommondEmptyResDtoMessage);
+}
+

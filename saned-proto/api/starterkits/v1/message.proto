@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package api.starterkits.v1.dto;
+
+option php_namespace = "App\\Grpc\\Protobuf\\StarterKits\\v1\\DTO";
+option php_metadata_namespace = "App\\Grpc\\Protobuf\\StarterKits\\v1\\GPBMetadata";
+option csharp_namespace = "App.Grpc.Protobuf.StarterKits.v1.DTO";
+
+
+
+import "google/protobuf/timestamp.proto";
+
+message GetAllRequest {
+}
+message GetWeatherForecastRequest {
+    string id = 1;
+}
+message WeatherForecastListRes {
+    repeated WeatherForecastRes items = 1;
+}
+message WeatherForecastRes {
+    string id = 1;
+    google.protobuf.Timestamp date = 2;
+    int32 temperatureC =3;
+    string summary = 4;
+}
+
+message CreateWeatherForecastRequest {
+    google.protobuf.Timestamp date = 1;
+    int32 temperatureC = 2;
+    string summary = 3;
+}
+
+message UpdateWeatherForecastRequest {
+    string id = 1;
+    google.protobuf.Timestamp date = 2;
+    int32 temperatureC = 3;
+    string summary = 4;
+}
+
+message DeleteWeatherForecastRequest {
+    string id = 1;
+  }

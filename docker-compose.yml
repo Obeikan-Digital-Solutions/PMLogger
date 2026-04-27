@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  sanedstatrerkit:
+    image: ${REGISTRY:-demo-saned}/sanedstatrerkit:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/SanedStatrerKit/Dockerfile

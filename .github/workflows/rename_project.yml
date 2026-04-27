@@ -1,0 +1,56 @@
+name: Rename the project from template
+
+on: [push]
+
+permissions: write-all
+
+jobs:
+  rename-project:
+    #if: false
+    if: ${{ !contains (github.repository, '/SanedStarterKit') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          # by default, it uses a depth of 1
+          # this fetches all history so that we can read each commit
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+          
+      - run: echo "REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}' | tr '-' '_' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+        shell: bash
+
+      - run: echo "REPOSITORY_URLNAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
+        shell: bash
+
+      - run: echo "REPOSITORY_OWNER=$(echo '${{ github.repository }}' | awk -F '/' '{print $1}')" >> $GITHUB_ENV
+        shell: bash
+        
+      - name: Is this still a template
+        id: is_template
+        run: echo "::set-output name=is_template::$(ls .github/template.yml &> /dev/null && echo true || echo false)"
+
+      - name: Rename the project
+        if: steps.is_template.outputs.is_template == 'true'
+        run: |
+          echo "Renaming the project with -a(author) ${{ env.REPOSITORY_OWNER }} -n(name) ${{ env.REPOSITORY_NAME }} -u(urlname) ${{ env.REPOSITORY_URLNAME }}"
+          for filename in $(git ls-files) 
+          do
+              if [ "$filename" != "BuildingBlocks" ] &&[ "$filename" != "saned-proto" ]  &&[ "$filename" != ".github" ]; then
+                sed -i "s/OIG/${{ env.REPOSITORY_OWNER }}/g" $filename
+                sed -i "s/sanedstarterkit/${{ env.REPOSITORY_NAME }}/g" $filename
+                sed -i "s/SanedStarterKit/${{ env.REPOSITORY_URLNAME }}/g" $filename
+                echo "Renamed $filename"
+              fi
+          done
+          git restore .github/workflows
+          mv SanedStarterKit.sln "${{ env.REPOSITORY_URLNAME }}.sln"
+          mv Services/SanedStarterKit/SanedStarterKit.csproj "Services/SanedStarterKit/${{ env.REPOSITORY_URLNAME }}.csproj"
+          mv Services/SanedStarterKit "Services/${{ env.REPOSITORY_URLNAME }}"
+          rm -rf .github/template.yml
+              
+      - name: Commit & Push changes
+        uses: Andro999b/push@v1.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          #github_token: ${{ secrets.GITHUB_WORKFLOW_TOKEN }}

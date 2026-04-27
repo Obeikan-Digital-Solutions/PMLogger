@@ -1,0 +1,46 @@
+name: CI-V5-exampleservicename
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - prod
+      - staging
+
+  pull_request:
+    branches:
+    - prod
+    - staging
+env:
+  SERVICE: exampleservicename
+  IMAGE: exampleservicename
+
+jobs:
+  BuildContainersForPR_Linux:
+    runs-on: vm-api-cicd-stage
+    if: ${{ github.event_name == 'pull_request' }}
+    # if: false
+    steps:
+    - name: Checkout ✅
+      uses: actions/checkout@v3
+    - name: Composit Build
+      uses: ./.github/workflows/composite/build-v5
+      with:
+        service: ${{ env.SERVICE }}
+        registry_endpoint: ${{ secrets.REGISTRY_ENDPOINT }}
+  BuildLinux:
+    if: ${{ github.event_name != 'pull_request' }}
+    # if: false
+    runs-on: vm-api-cicd-stage
+    steps:
+      - name: Checkout ✅
+        uses: actions/checkout@v3
+      - name: Composit Build
+        uses: ./.github/workflows/composite/build-push-v5
+        with:
+          service: ${{ env.SERVICE }}
+          registry_host: ${{ secrets.REGISTRY_HOST }}
+          registry_endpoint: ${{ secrets.REGISTRY_ENDPOINT }}
+          image_name: ${{ env.IMAGE }}
+          registry_username: ${{ secrets.USERNAME }}
+          registry_password: ${{ secrets.PASSWORD }}
